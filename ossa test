@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<pthread.h>
+#include<unistd.h>
+
+pthread_mutex_t mutex;
+
+void * thread1(int i){
+    
+    //pthread_mutex_lock(&mutex);
+    
+    printf("hellow world \n");
+    printf("Increment %d \n",i+10);
+    
+    //pthread_mutex_lock(&mutex);
+    
+}
+
+void * thread2(int i){
+    pthread_mutex_lock(&mutex);
+    
+    printf("hellow world \n");
+    printf("Decrement %d \n",i-10);
+    
+    pthread_mutex_lock(&mutex);
+}
+
+int main(){
+     int i;
+     printf("Enter the value ");
+     scanf("%d",&i);
+     
+     pthread_mutex_init(&mutex,NULL);
+
+     pthread_t tid1,tid2;
+     pthread_create(&tid1,NULL,thread1,(void*)i);
+     pthread_join(tid1,NULL);
+
+     pthread_create(&tid2,NULL,thread2,(void*)i);
+     pthread_join(tid2,NULL);
+     
+     pthread_mutex_destroy(&mutex);
+
+
+     return 0;
+}
